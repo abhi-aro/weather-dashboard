@@ -1,31 +1,47 @@
 # Weather Dashboard
 
-A simple weather dashboard built using React, TypeScript, and Material UI. This app allows users to search for the weather of any city and displays the current weather conditions along with a 5-day forecast.
+A weather dashboard built with React, TypeScript, and Material UI. This app allows users to view the current weather for a given city, along with a 5-day forecast in 3-hour intervals. It supports toggling between Celsius (metric) and Fahrenheit (imperial) units.
 
 ## Features
 
-- **Search Functionality**: Users can search for the weather by city name.
-- **Weather Details**: Displays the current temperature, humidity, wind speed, weather condition, and weather icon.
-- **5-Day Forecast**: Shows a 5-day weather forecast with temperature and weather conditions.
-- **Unit Toggle**: Users can toggle between Celsius and Fahrenheit units for temperature.
-- **Mobile Friendly**: The app is designed to be responsive and mobile-friendly.
+- **Search for weather by city**: Allows users to enter a city name to retrieve weather data.
+- **Geolocation support**: Automatically fetches weather data based on the user's current location.
+- **Unit toggle**: Switch between Celsius (°C) and Fahrenheit (°F) for temperature measurements.
+- **Forecast display**: Shows a 5-day forecast with 3-hour intervals for detailed weather information.
+- **Responsive UI**: The application is mobile-friendly, adapting to different screen sizes.
 
-## Setup Instructions
+## Tech Stack
 
-Follow the steps below to set up the project on your local machine.
+- **React**: Front-end framework for building user interfaces.
+- **TypeScript**: Strongly-typed JavaScript for better development experience and type safety.
+- **Material UI**: A React UI framework for fast and easy styling and components.
+- **React Icons**: Library for adding customizable icons (e.g., temperature unit icons).
+- **OpenWeather API**: Provides weather data including current weather and forecast information.
+
+## Getting Started
 
 ### Prerequisites
 
-Before you begin, make sure you have the following installed on your machine:
+Make sure you have the following installed:
 
-- [Node.js](https://nodejs.org/) (v16 or higher)
-- [npm](https://npmjs.com) (comes with Node.js)
+- [Node.js](https://nodejs.org/) (version >= 14)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) (package manager)
 
-### 1. Clone the repository
+### Installation
 
-```bash
-git clone https://github.com/yourusername/weather-dashboard.git
-cd weather-dashboard
-
-npm install
-npm run dev
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/abhi-aro/weather-dashboard.git
+   ```
+1. Navigate to the project folder:
+   ```bash
+   cd weather-dashboard
+   ```
+1. Install the dependencies:
+   ```bash
+   npm install
+   ```
+1. Start the development server:
+   ```bash
+   npm run dev
+   ```
