@@ -7,12 +7,12 @@ import { Container, CircularProgress, Grid, Button, Typography, Box } from '@mui
 
 function App() {
   // State to store the city name, temperature unit, and loading status
-  const { data, forecast, error, fetchWeather } = useWeather();
+  const { data, forecast, error, fetchWeatherByCity, fetchWeatherByLocation } = useWeather();
   const [city, setCity] = useState<string>(''); // city name state
   const [unit, setUnit] = useState<string>('metric'); // temperature unit (metric or imperial)
   const [loading, setLoading] = useState<boolean>(false); // loading state
 
-  // Function to handle city search
+  // Function to fetch weather based on the city or location
   const handleSearch = (city: string) => {
     setCity(city); // Update the city state on search
   };
@@ -22,13 +22,62 @@ function App() {
     setUnit((prevUnit) => (prevUnit === 'metric' ? 'imperial' : 'metric'));
   };
 
-  // Effect hook to fetch weather data when city or unit changes
+  // Fetch weather data based on the city's name
+  const fetchWeatherForCity = async (city: string) => {
+    setLoading(true);
+    try {
+      await fetchWeatherByCity(city, unit); // Fetch weather by city name
+    } catch (error) {
+      console.error('Failed to fetch weather data for city.');
+    } finally {
+      setLoading(false); // Always set loading to false after the fetch
+    }
+  };
+
+  // Fetch weather data based on the user's location (geolocation)
+  const fetchWeatherForLocation = async () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          setLoading(true);
+          try {
+            await fetchWeatherByLocation(latitude, longitude, unit); // Fetch weather using latitude and longitude
+          } catch (error) {
+            console.error('Failed to fetch weather data for location.');
+          } finally {
+            setLoading(false); // Always set loading to false after the fetch
+          }
+        },
+        (error) => {
+          setLoading(false);
+          console.error('Unable to retrieve your location.');
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+      setLoading(false);
+    }
+  };
+
+  // Fetch weather based on current location on initial load
+  useEffect(() => {
+    fetchWeatherForLocation(); // Fetch weather by location when the app first loads
+  }, []);
+
+  // Fetch weather by city name when a city is searched
   useEffect(() => {
     if (city) {
-      setLoading(true); // Set loading state to true before fetching
-      fetchWeather(city, unit).finally(() => setLoading(false)); // Fetch weather data
+      fetchWeatherForCity(city); // Fetch weather by city when city changes
     }
-  }, [city, unit]); // Dependency on city and unit to re-fetch data when they change
+  }, [city, unit]); // Also re-fetch when unit changes
+
+  // Fetch weather again when unit changes
+  useEffect(() => {
+    if (!city) {
+      fetchWeatherForLocation(); // Re-fetch weather for current location when unit changes
+    }
+  }, [unit]); // Re-fetch weather whenever unit changes
 
   return (
     <Container maxWidth="md" style={{ paddingTop: '2rem' }}>

@@ -16,8 +16,8 @@ export const useWeather = () => {
   // State for storing error message
   const [error, setError] = useState<string | null>(null);
 
-  // Function to fetch current weather and forecast data for a city
-  const fetchWeather = async (city: string, unit: string = 'metric') => {
+  // Fetch weather data by city name
+  const fetchWeatherByCity = async (city: string, unit: string = 'metric') => {
     try {
       // Fetch current weather data
       const currentResponse = await axios.get(WEATHER_URL, {
@@ -33,17 +33,41 @@ export const useWeather = () => {
         params: { q: city, units: unit, appid: API_KEY },
       });
 
-      // Update the state with the fetched forecast data
       setForecast(forecastResponse.data.list);
     } catch (err) {
-      // Handle error and update the state
-      console.error(err);
-      setError('Failed to fetch weather data');
+      setError('Failed to fetch weather data for city');
       setData(null);
       setForecast(null);
     }
   };
 
-  // Return the weather data, forecast, error message, and fetchWeather function
-  return { data, forecast, error, fetchWeather };
+  // Fetch weather data by geolocation (latitude and longitude)
+  const fetchWeatherByLocation = async (lat: number, lon: number, unit: string = 'metric') => {
+    try {
+      const currentResponse = await axios.get(WEATHER_URL, {
+        params: { lat, lon, units: unit, appid: API_KEY },
+      });
+
+      setData(currentResponse.data);
+      setError(null);
+
+      const forecastResponse = await axios.get(FORECAST_URL, {
+        params: { lat, lon, units: unit, appid: API_KEY },
+      });
+
+      setForecast(forecastResponse.data.list);
+    } catch (err) {
+      setError('Failed to fetch weather data for location');
+      setData(null);
+      setForecast(null);
+    }
+  };
+
+  return {
+    data,
+    forecast,
+    error,
+    fetchWeatherByCity,
+    fetchWeatherByLocation,
+  };
 };
