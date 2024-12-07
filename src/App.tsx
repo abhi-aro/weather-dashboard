@@ -7,10 +7,10 @@ import {
   Container,
   CircularProgress,
   Grid,
-  Button,
   Typography,
   Box,
 } from '@mui/material';
+import { UnitToggleButton } from './components/UnitToggleButton'; // Import the new toggle button
 
 function App() {
   // State to store the city name, temperature unit, and loading status
@@ -27,7 +27,7 @@ function App() {
 
   // Function to toggle temperature unit between metric (°C) and imperial (°F)
   const toggleUnit = () => {
-    setUnit((prevUnit) => (prevUnit === 'metric' ? 'imperial' : 'metric'));
+    setUnit((prevUnit) => (prevUnit === 'metric' ? 'imperial' : 'metric')); // Toggle between metric and imperial
   };
 
   // Fetch weather data based on the city's name
@@ -68,26 +68,26 @@ function App() {
     }
   };
 
-  // Fetch weather by location or city on initial load
+  useEffect(() => {
+    fetchWeatherForLocation(); // Fetch weather by location when the app first loads
+  }, []);
+
   useEffect(() => {
     if (city) {
-      fetchWeatherForCity(city); // Fetch weather by city name
-    } else {
-      fetchWeatherForLocation(); // Fetch weather by location if no city is provided
+      fetchWeatherForCity(city); // Fetch weather by city when city changes
     }
-  }, [city, unit]); // Re-fetch when city or unit changes
+  }, [city, unit]); // Also re-fetch when unit changes
+
+  useEffect(() => {
+    if (!city) {
+      fetchWeatherForLocation(); // Re-fetch weather for current location when unit changes
+    }
+  }, [unit]); // Re-fetch weather whenever unit changes
 
   return (
     <Container maxWidth="md" style={{ paddingTop: '2rem' }}>
       {/* Search Bar component for city input */}
       <SearchBar onSearch={handleSearch} />
-
-      {/* Button to toggle between metric and imperial units */}
-      <Box display="flex" justifyContent="flex-end" marginBlock={2}>
-        <Button variant="contained" onClick={toggleUnit}>
-          Toggle Unit
-        </Button>
-      </Box>
 
       {/* Loading spinner while fetching data */}
       {loading ? (
@@ -151,6 +151,9 @@ function App() {
           )}
         </>
       )}
+
+      {/* Floating button to toggle between metric and imperial units */}
+      <UnitToggleButton toggleUnit={toggleUnit} unit={unit} />
     </Container>
   );
 }
