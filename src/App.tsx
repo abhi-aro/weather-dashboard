@@ -3,11 +3,19 @@ import { SearchBar } from './components/SearchBar';
 import { WeatherCard } from './components/WeatherCard';
 import { ForecastCard } from './components/ForecastCard';
 import { useWeather } from './hooks/useWeather';
-import { Container, CircularProgress, Grid, Button, Typography, Box } from '@mui/material';
+import {
+  Container,
+  CircularProgress,
+  Grid,
+  Button,
+  Typography,
+  Box,
+} from '@mui/material';
 
 function App() {
   // State to store the city name, temperature unit, and loading status
-  const { data, forecast, error, fetchWeatherByCity, fetchWeatherByLocation } = useWeather();
+  const { data, forecast, error, fetchWeatherByCity, fetchWeatherByLocation } =
+    useWeather();
   const [city, setCity] = useState<string>(''); // city name state
   const [unit, setUnit] = useState<string>('metric'); // temperature unit (metric or imperial)
   const [loading, setLoading] = useState<boolean>(false); // loading state
@@ -52,7 +60,7 @@ function App() {
         (error) => {
           setLoading(false);
           console.error('Unable to retrieve your location.');
-        }
+        },
       );
     } else {
       console.error('Geolocation is not supported by this browser.');
@@ -85,7 +93,7 @@ function App() {
       <SearchBar onSearch={handleSearch} />
 
       {/* Button to toggle between metric and imperial units */}
-      <Box display="flex" justifyContent="flex-end" marginTop={2}>
+      <Box display="flex" justifyContent="flex-end" marginBlock={2}>
         <Button variant="contained" onClick={toggleUnit}>
           Toggle Unit
         </Button>
@@ -110,27 +118,40 @@ function App() {
             <WeatherCard
               city={data.name}
               temp={data.main.temp}
+              feelsLike={data.main.feels_like}
+              tempMin={data.main.temp_min}
+              tempMax={data.main.temp_max}
               condition={data.weather[0].description}
               humidity={data.main.humidity}
               windSpeed={data.wind.speed}
+              visibility={data.visibility}
+              cloudiness={data.clouds.all}
               icon={data.weather[0].icon}
               unit={unit}
             />
           )}
 
-          {/* Display 5-day forecast cards */}
+          {/* Display detailed 3-hour forecast cards */}
           {forecast && (
             <Box marginTop={4}>
               <Typography variant="h5" align="center" gutterBottom>
-                5-Day Forecast
+                5-Day Forecast (3-hour intervals)
               </Typography>
               <Grid container spacing={2}>
-                {forecast.slice(0, 5).map((item: any) => (
+                {forecast.map((item: any) => (
                   <Grid item xs={12} sm={6} md={4} key={item.dt}>
                     <ForecastCard
-                      date={new Date(item.dt * 1000).toLocaleDateString()} // Convert Unix timestamp to date string
+                      date={new Date(item.dt * 1000).toLocaleString()} // Convert Unix timestamp to date-time string
                       temp={item.main.temp}
+                      feelsLike={item.main.feels_like}
+                      tempMin={item.main.temp_min}
+                      tempMax={item.main.temp_max}
                       condition={item.weather[0].description}
+                      icon={item.weather[0].icon}
+                      windSpeed={item.wind.speed}
+                      windGust={item.wind.gust}
+                      cloudiness={item.clouds.all}
+                      humidity={item.main.humidity}
                       unit={unit}
                     />
                   </Grid>
