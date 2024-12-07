@@ -1,28 +1,30 @@
+// Interface representing the structure of the current weather data
 export interface WeatherData {
-  name: string;
+  name: string; // Name of the city
   main: {
-    temp: number;
-    humidity: number;
+    temp: number; // Current temperature
+    humidity: number; // Current humidity percentage
   };
   weather: [
     {
-      description: string;
-      icon: string;
+      description: string; // Weather condition description (e.g., "clear sky")
+      icon: string; // Icon code for the weather condition (used to display weather icon)
     }
   ];
   wind: {
-    speed: number;
+    speed: number; // Wind speed in meters per second
   };
 }
 
+// Interface representing the structure of the forecast data
 export interface ForecastData {
-  dt: number;
+  dt: number; // Timestamp of the forecast data
   main: {
-    temp: number;
+    temp: number; // Forecasted temperature
   };
   weather: [
     {
-      description: string;
+      description: string; // Weather condition description for the forecast
     }
   ];
 }
