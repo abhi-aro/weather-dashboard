@@ -36,50 +36,118 @@ export const ForecastCard: React.FC<{
   const iconUrl = `http://openweathermap.org/img/wn/${icon}.png`;
 
   return (
-    <Card variant="outlined" sx={{ borderRadius: 2, boxShadow: 2, marginBottom: 2, backgroundColor: 'background.paper' }}>
+    <Card
+      variant="outlined"
+      sx={{
+        borderRadius: 2,
+        boxShadow: 3,
+        marginBottom: 3,
+        backgroundColor: 'background.paper',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          boxShadow: 6, // Increase shadow on hover for a more dynamic look
+        },
+      }}
+    >
       <CardContent>
         {/* Display forecast date and time */}
-        <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main', textAlign: 'center' }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 'bold',
+            color: 'primary.main',
+            textAlign: 'center',
+            textTransform: 'uppercase', // Make date stand out with uppercase
+            marginBottom: 1,
+          }}
+        >
           {date}
         </Typography>
 
         {/* Display weather icon */}
-        <Box display="flex" justifyContent="center" mt={1}>
+        <Box display="flex" justifyContent="center" mb={2}>
           <CardMedia
             component="img"
             image={iconUrl}
             alt={condition}
-            sx={{ width: 80, height: 80, objectFit: 'contain' }}
+            sx={{
+              width: 90,
+              height: 90,
+              objectFit: 'contain',
+              borderRadius: '50%', // Rounded icon for a more modern feel
+              border: '2px solid #ddd', // Add subtle border around the icon
+            }}
           />
         </Box>
 
         {/* Display temperature details */}
-        <Box display="flex" justifyContent="center" mt={2}>
-          <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'primary.dark' }}>
+        <Box display="flex" justifyContent="center" mt={1}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 'bold',
+              color: 'primary.dark',
+              textAlign: 'center',
+            }}
+          >
             {temp} {tempUnit}
           </Typography>
         </Box>
-        <Typography variant="body2" align="center" sx={{ color: 'text.secondary', marginTop: 1 }}>
+        <Typography
+          variant="body2"
+          align="center"
+          sx={{ color: 'text.secondary', marginTop: 1 }}
+        >
           Feels like: {feelsLike} {tempUnit}
         </Typography>
-        <Typography variant="body2" align="center" sx={{ color: 'text.secondary' }}>
+        <Typography
+          variant="body2"
+          align="center"
+          sx={{ color: 'text.secondary' }}
+        >
           Min: {tempMin} {tempUnit} | Max: {tempMax} {tempUnit}
         </Typography>
 
         {/* Display weather condition */}
-        <Typography variant="body2" align="center" sx={{ marginTop: 1 }}>
+        <Typography
+          variant="body2"
+          align="center"
+          sx={{ marginTop: 1, fontWeight: 'bold', color: 'text.primary' }}
+        >
           Condition: {condition}
         </Typography>
 
         {/* Display wind details */}
-        <Typography variant="body2" sx={{ marginTop: 1 }}>
-          Wind: {windSpeed} m/s (Gusts: {windGust} m/s)
+        <Typography
+          variant="body2"
+          sx={{
+            marginTop: 1,
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          Wind: {windSpeed} m/s
+          <Box component="span" sx={{ color: 'text.secondary' }}>
+            (Gusts: {windGust} m/s)
+          </Box>
         </Typography>
 
         {/* Display cloudiness and humidity */}
-        <Typography variant="body2">
-          Cloudiness: {cloudiness}% | Humidity: {humidity}%
-        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: 1,
+            fontSize: '0.875rem',
+          }}
+        >
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            Cloudiness: {cloudiness}%
+          </Typography>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            Humidity: {humidity}%
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );

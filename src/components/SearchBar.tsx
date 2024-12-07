@@ -17,7 +17,17 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 2 }}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 2,
+        width: '100%',
+      }}
+    >
       {/* Input field for the city name */}
       <TextField
         variant="outlined"
@@ -26,12 +36,15 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         placeholder="Enter city"
         fullWidth
         sx={{
-          maxWidth: 400, // Limit the width for a more compact look
+          maxWidth: 500, // Increase max width for a more spacious input
           borderRadius: 2, // Rounded corners
           backgroundColor: '#fff',
           boxShadow: 2, // Subtle shadow for modern look
           '& .MuiOutlinedInput-root': {
             borderRadius: 2,
+          },
+          '& .MuiInputBase-root:focus': {
+            boxShadow: '0 0 5px 2px rgba(0, 123, 255, 0.6)', // Focus state for better visual feedback
           },
         }}
       />
@@ -45,6 +58,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
           height: '100%',
           padding: '10px 20px',
           fontWeight: 'bold',
+          '&:hover': {
+            backgroundColor: 'primary.dark', // Hover effect for button
+          },
         }}
       >
         Search

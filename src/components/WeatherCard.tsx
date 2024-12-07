@@ -52,6 +52,11 @@ export const WeatherCard: React.FC<WeatherProps> = ({
         alignItems: 'center',
         textAlign: 'center',
         margin: 'auto',
+        transition: 'all 0.3s ease-in-out', // Smooth hover transition
+        '&:hover': {
+          boxShadow: 10, // Increase shadow on hover for a floating effect
+          transform: 'scale(1.02)', // Slight scaling effect for hover
+        },
       }}
     >
       <CardContent>

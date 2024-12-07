@@ -68,24 +68,14 @@ function App() {
     }
   };
 
-  // Fetch weather based on current location on initial load
-  useEffect(() => {
-    fetchWeatherForLocation(); // Fetch weather by location when the app first loads
-  }, []);
-
-  // Fetch weather by city name when a city is searched
+  // Fetch weather by location or city on initial load
   useEffect(() => {
     if (city) {
-      fetchWeatherForCity(city); // Fetch weather by city when city changes
+      fetchWeatherForCity(city); // Fetch weather by city name
+    } else {
+      fetchWeatherForLocation(); // Fetch weather by location if no city is provided
     }
-  }, [city, unit]); // Also re-fetch when unit changes
-
-  // Fetch weather again when unit changes
-  useEffect(() => {
-    if (!city) {
-      fetchWeatherForLocation(); // Re-fetch weather for current location when unit changes
-    }
-  }, [unit]); // Re-fetch weather whenever unit changes
+  }, [city, unit]); // Re-fetch when city or unit changes
 
   return (
     <Container maxWidth="md" style={{ paddingTop: '2rem' }}>
