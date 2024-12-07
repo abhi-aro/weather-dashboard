@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { SearchBar } from './components/SearchBar';
 import { WeatherCard } from './components/WeatherCard';
 import { ForecastCard } from './components/ForecastCard';
@@ -11,6 +11,9 @@ import {
   Box,
 } from '@mui/material';
 import { UnitToggleButton } from './components/UnitToggleButton'; // Import the new toggle button
+
+// Import the types
+import { ForecastData } from './types/weather';
 
 function App() {
   // State to store the city name, temperature unit, and loading status
@@ -36,7 +39,7 @@ function App() {
     try {
       await fetchWeatherByCity(city, unit); // Fetch weather by city name
     } catch (error) {
-      console.error('Failed to fetch weather data for city.');
+      console.error('Failed to fetch weather data for city.', error);
     } finally {
       setLoading(false); // Always set loading to false after the fetch
     }
@@ -52,14 +55,14 @@ function App() {
           try {
             await fetchWeatherByLocation(latitude, longitude, unit); // Fetch weather using latitude and longitude
           } catch (error) {
-            console.error('Failed to fetch weather data for location.');
+            console.error('Failed to fetch weather data for location.', error);
           } finally {
             setLoading(false); // Always set loading to false after the fetch
           }
         },
         (error) => {
           setLoading(false);
-          console.error('Unable to retrieve your location.');
+          console.error('Unable to retrieve your location.', error);
         },
       );
     } else {
@@ -128,7 +131,7 @@ function App() {
                 5-Day Forecast (3-hour intervals)
               </Typography>
               <Grid container spacing={2}>
-                {forecast.map((item: any) => (
+                {forecast.map((item: ForecastData) => (
                   <Grid item xs={12} sm={6} md={4} key={item.dt}>
                     <ForecastCard
                       date={new Date(item.dt * 1000).toLocaleString()} // Convert Unix timestamp to date-time string
